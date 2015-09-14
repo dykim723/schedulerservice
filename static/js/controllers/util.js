@@ -6,7 +6,7 @@ var Accordion = {
     },
 
     print: function(option){
-        		alert(option);
+        		//alert(option);
     },
 
     Events: {

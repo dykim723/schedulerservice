@@ -19,4 +19,5 @@ from schedulerservice.views import *
 urlpatterns = patterns('',
     url(r'^scheduler$', 'schedulerservice.views.index', name='home'),
     url(r'^$', 'schedulerservice.views.index', name='home'),
+    url(r'^account$', 'schedulerservice.views.account', name='home'),
 )
