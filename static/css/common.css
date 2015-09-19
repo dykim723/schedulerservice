@@ -1,0 +1,26 @@
+#accordion-wrapper {
+    margin: 2em auto;
+    font: 80%/1.5 Arial, sans-serif;
+    width: 70%;
+}
+
+.accordion {
+    margin-bottom: 1.5em;
+}
+
+.accordion h3 {
+    padding: 5px 8px;
+    font-size: 1.3em;
+    background: #222;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.accordion-content {
+    padding: 0.5em;
+    background: #eee;
+    border: 1px solid #ddd;
+    margin-top: 0.5em;
+    display: none;
+}
