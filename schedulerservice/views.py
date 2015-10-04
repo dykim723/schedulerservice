@@ -1,10 +1,52 @@
+import os
+import logging
+import httplib2
+import io
+
 from django.shortcuts import render
 
+from apiclient.discovery import build
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
+from django.http import HttpResponseRedirect
+from oauth2client import xsrfutil
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.django_orm import Storage
+
+CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), '../static/', 'client_secret_01.json')
+
+FLOW = flow_from_clientsecrets( CLIENT_SECRETS,
+	scope='https://www.googleapis.com/auth/calendar',
+	redirect_uri='http://localhost:8000/oauth2callback/')
+
 def index(request):
-    context = {}
-    return render(request, 'index.html', context)
+	context = {}
+	return 	render(request, 'index.html', context)
 
 
 def account(request):
-    context = {}
-    return render(request, 'account.html', context)
+	context = {}
+	return render(request, 'account.html', context)
+
+def login_google(request, fake_user):
+	authorize_url = FLOW.step1_get_authorize_url()
+	return HttpResponseRedirect(authorize_url)
+
+def  credential_google(request):
+	credential = FLOW.step2_exchange(request.GET['code'])#JH 20150924 rewrite code
+
+	output = io.StringIO()
+	http = httplib2.Http()
+	http = credential.authorize(http)
+
+	service = build('calendar', 'v3', http=http)
+	request = service.events().list(calendarId='primary')
+
+	while request != None:
+		response = request.execute()
+		for event in response.get('items', []):
+			output.write(repr(event.get('summary', 'NO SUMMARY')) + '\n')
+		request = service.events().list_next(request, response)
+	return HttpResponse(output.getvalue())
