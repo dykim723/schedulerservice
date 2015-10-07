@@ -30,12 +30,16 @@ def account(request):
 	context = {}
 	return render(request, 'account.html', context)
 
-def login_google(request, fake_user):
+def login(request):
+	context={}
+	return render(request, 'login.html',context)
+
+def login_google(request):
 	authorize_url = FLOW.step1_get_authorize_url()
 	return HttpResponseRedirect(authorize_url)
 
 def  credential_google(request):
-	credential = FLOW.step2_exchange(request.GET['code'])#JH 20150924 rewrite code
+	credential = FLOW.step2_exchange(request.GET['code'])#JH 20150924
 
 	output = io.StringIO()
 	http = httplib2.Http()

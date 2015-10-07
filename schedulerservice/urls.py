@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^scheduler$', 'schedulerservice.views.index', name='home'),
     url(r'^$', 'schedulerservice.views.index', name='home'),
     url(r'^account$', 'schedulerservice.views.account', name='home'),
-    url(r'^login/(?P<fake_user>.+)$','schedulerservice.views.login_google',name='login_google'),
+    url(r'^login$','schedulerservice.views.login',name='login'),
+    url(r'^login/google$','schedulerservice.views.login_google',name='login_google'),
     url(r'^oauth2callback','schedulerservice.views.credential_google', name='credential_google')
 )
