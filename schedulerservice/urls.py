@@ -13,14 +13,22 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from django.contrib import admin
 from schedulerservice.views import *
+
+admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^scheduler$', 'schedulerservice.views.index', name='home'),
-    url(r'^$', 'schedulerservice.views.index', name='home'),
+    url(r'^index', 'schedulerservice.views.index', name='home'),
     url(r'^account$', 'schedulerservice.views.account', name='home'),
     url(r'^login$','schedulerservice.views.login',name='login'),
     url(r'^login/google$','schedulerservice.views.login_google',name='login_google'),
-    url(r'^oauth2callback','schedulerservice.views.credential_google', name='credential_google')
+    url(r'^oauth2callback','schedulerservice.views.credential_google', name='credential_google'),
+    url(r'^admin/', include(admin.site.urls)),    
+    # if the URL pattern match /admin/ then open up admin panel 
+    url(r'', include('shortenerSite.urls', namespace='shortenerSite')),
+    # if anything rather then /admin/ then it will look for shortenerSite/urls
+
 )

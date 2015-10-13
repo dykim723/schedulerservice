@@ -2,6 +2,8 @@ import os
 import logging
 import httplib2
 import io
+import hashlib, zlib
+import short_url
 
 from django.shortcuts import render
 
@@ -14,6 +16,8 @@ from django.http import HttpResponseRedirect
 from oauth2client import xsrfutil
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.django_orm import Storage
+
+my_secret = "michnorts"
 
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), '../static/', 'client_secret_01.json')
 
@@ -38,7 +42,7 @@ def login_google(request):
 	authorize_url = FLOW.step1_get_authorize_url()
 	return HttpResponseRedirect(authorize_url)
 
-def  credential_google(request):
+def credential_google(request):
 	credential = FLOW.step2_exchange(request.GET['code'])#JH 20150924
 
 	output = io.StringIO()
