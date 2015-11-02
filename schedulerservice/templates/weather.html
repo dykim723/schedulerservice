@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+ <link rel="stylesheet" href="/static/css/jquery.mobile-1.4.5.min.css" />
+ <link rel="stylesheet" href="/static/css/common.css" />
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="/static/js/controllers/common.js"></script>
+<script>
+ $( document ).ready(function() {
+    $('#action-button').click(function() {
+       $.ajax({
+          url: 'http://api.openweathermap.org/data/2.5/forecast?q=Seoul,kr&units=metric&APPID=432dfadb6390c7073f3f134c1fb6731d',
+          data: {
+             format: 'jsonp'
+          },
+          error: function() {
+             $('#info').html('<p>An error has occurred</p>');
+          },
+         
+          success: function(data) {           
+             $('#info').append(data.city.name + " ")
+                       .append(data.list[0].main.temp + " ")
+                       .append(data.list[0].weather[0].description);
+             $('#img').attr("src", "http://openweathermap.org/img/w/" + data.list[0].weather[0].icon + ".png");
+          },
+          type: 'POST'
+       });
+    });
+  });
+</script>
+
+    <title>Scheduler Service</title>
+    </head>
+     
+    <body>
+        <div id="header">
+            <h1>My Weather</h1>
+        </div>
+        <div id="content">            
+            <button id="action-button">Click me to load info!</button>
+            <div id="info"></div>    
+            <img id="img"></img>
+            <small>Demo created by <a href="https://twitter.com/AurelioDeRosa">Aurelio De Rosa</a></small>
+        </div>                              
+
+
+        <div id="footer">
+           
+        </div>
+    </body>
+</html>

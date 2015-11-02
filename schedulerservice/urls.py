@@ -22,6 +22,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^scheduler$', 'schedulerservice.views.index', name='home'),
     url(r'^index', 'schedulerservice.views.index', name='home'),
+    url(r'^weather', 'schedulerservice.views.weather', name='weather'),
     url(r'^account$', 'schedulerservice.views.account', name='home'),
     url(r'^login$','schedulerservice.views.login',name='login'),
     url(r'^login/google$','schedulerservice.views.login_google',name='login_google'),
